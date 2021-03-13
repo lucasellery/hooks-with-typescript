@@ -1,24 +1,52 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {
+  useEffect,
+  useState,
+  useMemo,
+  useCallback,
+  useRef,
+  useContext,
+  useReducer,
+  useImperativeHandle,
+} from 'react';
 
-function App() {
+interface IUser {
+  name: string;
+  login: string;
+  avatar_url: string;
+}
+
+const App: React.FC = () => {
+
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [users, setUsers] = useState<[IUser]>();
+  const names = useMemo(() => users?.map(user => user.name).join(', ') || '', [users]);
+
+  const greeting = useCallback(
+    (user: IUser) => alert(`Hello ${names}`),
+    []
+  );
+
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  async function loadData() {
+    const response = await fetch('http://api.github.com/users/lucasellery');
+    const data = await response.json();
+
+    setUsers(data);
+  }
+
+  function focusOnInput() {
+    inputRef.current?.focus();
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {/* User name: {users?.name} */}
+      <form action="">
+        <input type="text" ref={inputRef}/>
+      </form>
     </div>
   );
 }
