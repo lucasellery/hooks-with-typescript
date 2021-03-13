@@ -3,7 +3,7 @@
 This project was created for studying typescript with hook and the particularities.
 <br/> It is not a project that has a usual interface, it is only for discovering how to code with the purpose above.
 
-## Running project
+## Running project 🚀
 
 In the project directory, you can run:
 
